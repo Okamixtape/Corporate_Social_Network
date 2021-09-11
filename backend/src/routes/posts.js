@@ -6,9 +6,11 @@ const express = require('express')
 // Création du routeur
 const router = express.Router()
 
-// Importation du controlleur 'posts', 'comments'
+// Importation des controlleurs 'posts', 'comments', 'likes'
 const postsCtrl = require('../controllers/posts')
 const commentsCtrl = require('../controllers/comments')
+const likesCtrl = require('../controllers/likes')
+
 
 // Importations des middlewares d'authentification et de gestion des fichiers
 const auth = require('../middleware/auth')
@@ -55,6 +57,17 @@ router.put('/:postId/comments/:id', auth, commentsCtrl.modifyComment)
 router.delete('/:postId/comments/:id', auth, commentsCtrl.deleteComment)
 
 
+
+// ---------------- ROUTES PUBLICATIONS/LIKES ---------------------- // 
+
+// Route utilisant la méthode POST pour ajouter un like à une publication (utilisation du controlleur 'likeOnePost')
+router.post('/:postId/likes', auth, likesCtrl.likeOnePost)
+
+// Route utilisant la méthode GET pour récupérer un like d'une publication (avec identifiant de la publication) (utilisation du controlleur 'getLikeOnOnePost')
+router.get('/:postId/like', auth, likesCtrl.getLikeOnOnePost)
+
+// Route utilisant la méthode GET pour récupérer tous les likes d'une publication (avec identifiant de la publication) (utilisation du controlleur 'getAllLikesOfOnePost')
+router.get('/:postId/likes', auth, likesCtrl.getAllLikesOfOnePost)
 
 // ---------------- EXPORTATIONS ---------------------- // 
 
