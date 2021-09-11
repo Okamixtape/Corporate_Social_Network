@@ -6,8 +6,9 @@ const express = require('express')
 // Création du routeur
 const router = express.Router()
 
-// Importation du controlleur 'posts'
+// Importation du controlleur 'posts', 'comments'
 const postsCtrl = require('../controllers/posts')
+const commentsCtrl = require('../controllers/comments')
 
 // Importations des middlewares d'authentification et de gestion des fichiers
 const auth = require('../middleware/auth')
@@ -32,6 +33,26 @@ router.put('/:id', auth, multer, postsCtrl.modifyPost)
 
 // Route utilisant la méthode DELETE pour supprimer une publication existante (utilisation du controlleur 'deletePost')
 router.delete('/:id', auth, postsCtrl.deletePost)
+
+
+
+// ---------------- ROUTES PUBLICATIONS/COMMENTAIRES ---------------------- // 
+
+// Route utilisant la méthode POST pour ajouter un commentaire à une publication (utilisation du controlleur 'createComment')
+router.post('/:postId/comments', auth, commentsCtrl.createComment)
+
+// Route utilisant la méthode GET pour récupérer un commentaire d'une publication (avec son identifiant et celui l'identifiant de la publication) (utilisation du controlleur 'getOneComment')
+// ':' indique que la route est dynamique
+router.get('/:postId/comments/:id', auth, commentsCtrl.getOneComment)
+
+// Route utilisant la méthode GET pour récupérer tous les commentaires d'une publication (avec identifiant de la publication) (utilisation du controlleur 'getAllComments')
+router.get('/:postId/comments/', auth, commentsCtrl.getAllComments)
+
+// Route utilisant la méthode PUT pour modifier un commentaire d'une publication (utilisation du controlleur 'modifyComment')
+router.put('/:postId/comments/:id', auth, commentsCtrl.modifyComment)
+
+// Route utilisant la méthode DELETE pour supprimer un commentaire d'une publication (utilisation du controlleur 'deleteComment')
+router.delete('/:postId/comments/:id', auth, commentsCtrl.deleteComment)
 
 
 

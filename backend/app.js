@@ -52,6 +52,9 @@ const postsRoutes = require('./src/routes/posts')
 // ----------------------- MIDDLEWARES --------------------------- //
 // app.use = Applique le middleware à toutes les requêtes
 
+// Middleware permettant l'authentification des utilisateurs
+const auth = require('./src/middleware/auth')
+
 // Fonction permettant d'appeler la fonction express (créer une application Express)
 const app = express();
 

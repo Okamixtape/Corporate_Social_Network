@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate (models) {
       Post.belongsTo(models.User, { foreignKey: 'userId' })
       Post.hasMany(models.Comments)
-      Post.hasMany(models.Likes)
     }
 
     readableCreatedAt () {
