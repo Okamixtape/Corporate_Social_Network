@@ -94,6 +94,8 @@
             </b-form-group>
             <b-button type="submit" class="save-btn">Enregistrer</b-button>
           </b-form>
+
+          <DeleteAccount />
         </b-card>
       </b-col>
     </b-row>
@@ -108,13 +110,15 @@ import { apiClient } from '../services/ApiClient'
 import ProfileButton from '../components/ProfileButton'
 import ProfileImage from '../components/ProfileImage'
 import PostsList from '../components/PostsList'
+import DeleteAccount from '../components/DeleteAccount'
 
 export default {
   name: 'Profile',
   components: {
     ProfileButton,
     ProfileImage,
-    PostsList
+    PostsList,
+    DeleteAccount
   },
   data () {
     const userData = JSON.parse(localStorage.getItem('userData'))
