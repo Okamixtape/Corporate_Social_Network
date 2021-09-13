@@ -35,8 +35,9 @@ Avant d'installer les dépendances, exécutez la commande suivante dans votre te
 
 4) Vérifiez que vous avez bien installé MySQL et exécutez les commandes suivantes :
 
-Créez la base de données en entrant `npx sequelize-cli db:create`
-Migrez les tables nécessaires `npx sequelize-cli db:migrate`
+- Créez la base de données en entrant `npx sequelize-cli db:create`
+
+- Migrez les tables nécessaires `npx sequelize-cli db:migrate`
 
 5) Si le dossier 'images' ne figure pas dans les dossiers du backend, veuillez le créer (s'il est manquant vous ne pourrez pas télécharger une image si vous voulez créer ou modifer une publication)
 
