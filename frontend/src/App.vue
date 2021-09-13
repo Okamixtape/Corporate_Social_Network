@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div
+      id="nav"
+      class="d-flex justify-content-start justify-content-sm-center mb-3 p-4"
+    >
       <router-link to="/">
         <img
           id="logo"
@@ -9,7 +12,7 @@
         />
       </router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -19,23 +22,29 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 #nav {
-  padding: 30px;
-
   #logo {
-    max-width: 250px;
+    max-width: 300px;
+  }
+}
+
+@media screen and (min-width: 280px) and (max-width: 767px) {
+  body,
+  .btn,
+  .form-control {
+    font-size: 13px !important;
   }
 
-  a {
-    text-decoration: none;
-    font-weight: bold;
+  #nav #logo {
+    max-width: 180px;
+  }
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+@media screen and (min-width: 767px) and (max-width: 769px) {
+  #nav #logo {
+    max-width: 240px;
   }
 }
 </style>

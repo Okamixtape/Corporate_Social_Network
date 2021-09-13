@@ -18,16 +18,26 @@
     >
       <b-card class="border-0" @click="toggleActions">
         <p class="card-text">
-          <b-button v-if="editingPost" block v-b-modal="`modal-${elementId}`">{{
-            modifyText
-          }}</b-button>
-          <b-button v-else @click="clickedEditButton">{{
-            modifyText
-          }}</b-button>
+          <b-button
+            class="text-left w-100"
+            v-if="editingPost"
+            block
+            v-b-modal="`modal-${elementId}`"
+          >
+            <b-icon icon="pencil" class="mr-2 mr-lg-3"></b-icon
+            ><span>{{ modifyText }}</span></b-button
+          >
+          <b-button class="text-left w-100" v-else @click="clickedEditButton">
+            <b-icon icon="pencil" class="mr-2 mr-lg-3"></b-icon
+            ><span>{{ modifyText }}</span></b-button
+          >
           <slot></slot>
         </p>
         <p class="card-text">
-          <b-button block v-on:click="onDelete">{{ deleteText }}</b-button>
+          <b-button class="text-left w-100" block v-on:click="onDelete"
+            ><b-icon icon="trash" class="mr-2 mr-lg-3"></b-icon>
+            <span>{{ deleteText }}</span></b-button
+          >
         </p>
       </b-card>
     </b-collapse>
@@ -37,13 +47,9 @@
 <script>
 import { apiClient } from '../services/ApiClient'
 import { mapState, mapActions } from 'vuex'
-import PostForm from './PostForm'
 
 export default {
   name: 'EditPost',
-  components: {
-    PostForm
-  },
   props: [
     'post',
     'customClass',
@@ -85,7 +91,7 @@ export default {
   }
 }
 .btn-secondary {
-  font-weight: bold;
+  font-weight: 500;
   color: #000;
   background-color: white;
   border: none;
@@ -97,7 +103,7 @@ export default {
   &:active,
   &:focus {
     color: #000 !important;
-    background-color: rgba(108, 117, 125, 0.2) !important;
+    background-color: rgba(108, 117, 125, 0.1) !important;
     box-shadow: none !important;
   }
 }
@@ -125,5 +131,24 @@ export default {
   visibility: visible;
   opacity: 1;
   transform: scaleY(1);
+}
+
+@media screen and (min-width: 280px) and (max-width: 767px) {
+  .collapsed {
+    .card-body {
+      padding: 0.5rem;
+      box-shadow: 0px 1px 2px 2px rgba(204, 204, 204, 0.2);
+    }
+  }
+
+  .button-collapsed {
+    top: 37px;
+    right: 10px;
+  }
+
+  .post-button {
+    padding: 1px 10px 6px !important;
+    font-size: 15px !important;
+  }
 }
 </style>

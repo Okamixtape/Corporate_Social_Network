@@ -1,32 +1,53 @@
 <template>
-  <div class="d-flex align-items-center position-relative">
-    <ProfileImage :src="comment.User.imageUrl" customClass="profile-picture" />
-    <div class="comment-box">
-      <p class="mb-0 font-weight-bold">
-        {{ comment.User.firstName }} {{ comment.User.lastName }}
-      </p>
-      <input
-        v-if="isEditing"
-        ref="inputContent"
-        v-model="comment.content"
-        @keydown.enter.exact.prevent
-        @keyup.enter.exact="modifyComment"
-        @keydown.enter.shift.exact="newline"
-        type="text"
-        class="input-content border-0 my-2"
-      />
-      <p v-else class="mb-0">{{ comment.content }}</p>
+  <div>
+    <div class="d-flex align-items-center position-relative">
+      <router-link
+        :to="{ name: 'UserProfile', params: { userId: comment.User.id } }"
+        ><div class="d-flex text-center mr-2 mt-2">
+          <ProfileImage
+            :src="comment.User.imageUrl"
+            customClass="comment-profile-picture"
+            divCustomClass="div-comment-picture"
+          /></div
+      ></router-link>
+      <div class="comment-box">
+        <router-link
+          :to="{ name: 'UserProfile', params: { userId: comment.User.id } }"
+          ><p class="mb-0 font-weight-bold">
+            {{ comment.User.firstName }} {{ comment.User.lastName }}
+          </p></router-link
+        >
+        <input
+          v-if="isEditing"
+          ref="inputContent"
+          v-model="comment.content"
+          @keydown.enter.exact.prevent
+          @keyup.enter.exact="modifyComment"
+          @keydown.enter.shift.exact="newline"
+          type="text"
+          class="input-content border-0 my-2"
+        />
+        <p v-else class="mb-0">{{ comment.content }}</p>
+      </div>
+
+      <EditButton
+        customClass="comment-button"
+        classCollapse="collapse-button"
+        :shouldDisplay="comment.User.id == userData.id"
+        @clickedEditButton="startEditing"
+        @onDelete="onDelete"
+        modifyText="Modifier"
+        deleteText="Supprimer"
+      >
+      </EditButton>
     </div>
-    <EditButton
-      customClass="comment-button"
-      classCollapse="collapse-button"
-      :shouldDisplay="comment.User.id == userData.id"
-      @clickedEditButton="startEditing"
-      @onDelete="onDelete"
-      modifyText="Modifier le commentaire"
-      deleteText="Supprimer le commentaire"
-    >
-    </EditButton>
+    <p class="text-secondary comment-date">
+      {{
+        moment(comment.updatedAt)
+          .locale('fr')
+          .fromNow()
+      }}
+    </p>
   </div>
 </template>
 
@@ -72,10 +93,11 @@ export default {
     },
 
     async modifyComment () {
-      await apiClient.put(
+      const res = await apiClient.put(
         `api/posts/${this.post.id}/comments/${this.comment.id}`,
         { content: this.comment.content }
       )
+      this.comment.updatedAt = res.comment.updatedAt
       this.isEditing = false
       this.$emit('displayNotification', 'Commentaire modifié !')
     }
@@ -87,17 +109,37 @@ export default {
 .comment-button {
   position: static !important;
   margin-left: 10px;
-  margin-bottom: 15px;
 }
 
 .collapse-button {
-  right: 181px;
-  top: 43px;
+  right: 232px;
+  top: 35px;
 }
 
 .input-content:focus {
   border-radius: 0.25rem;
   outline: none;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.comment-date {
+  margin-left: 58px;
+  font-size: 0.8rem;
+}
+
+@media screen and (min-width: 280px) and (max-width: 767px) {
+  .comment-date {
+    font-size: 0.6rem;
+  }
+
+  .comment-button {
+    margin-bottom: 0;
+    margin-left: 3px;
+  }
+  
+  .collapse-button {
+    right: 22px;
+    top: 32px;
+  }
 }
 </style>
