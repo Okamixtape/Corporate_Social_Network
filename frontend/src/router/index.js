@@ -1,14 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import auth from '../middleware/auth'
+import VueRouteMiddleware from 'vue-route-middleware'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Posts',
+    component: () => import('../views/Posts.vue'),
+    meta: {
+      middleware: auth
+    }
   },
   {
     path: '/about',
@@ -20,19 +24,29 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/posts',
-    name: 'Posts',
-    component: () => import('../views/Posts.vue')
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/signup',
     name: 'Signup',
     component: () => import('../components/Signup.vue')
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    meta: {
+      middleware: auth
+    }
   }
 ]
 
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach(VueRouteMiddleware())
 
 export default router

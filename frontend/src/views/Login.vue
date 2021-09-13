@@ -1,11 +1,11 @@
 <template>
   <div class="page-container">
-    <div class="container-fluid">
-      <div class="row text-center justify-content-center">
-        <div class="col-6 col-md-4">
-          <b-card  class="border-0 shadow p-3 mb-5 mt-3 bg-white rounded">
-            <b-card-text class="h4">Se connecter</b-card-text>
-            <div class="card-body pt-sm-3 pt-md-0">
+    <b-container fluid>
+      <b-row class="text-center justify-content-center">
+        <b-col cols="6" md="4">
+          <b-card class="border-0 shadow p-3 mb-5 mt-3 bg-white rounded">
+            <div class="pt-sm-3 pt-md-0">
+              <b-card-text class="h4">Se connecter</b-card-text>
               <b-form>
                 <b-form-group>
                   <b-form-input
@@ -25,33 +25,33 @@
                 </b-form-group>
 
                 <b-button
-                  type="button"
-                  v-on:click="login()"
+                  v-on:click.stop="login()"
+                  type="submit"
                   variant="danger"
                   id="login-button"
                   class="font-weight-bold"
                 >
                   Connexion
                 </b-button>
-                <p class="mx-2">{{ errorMessage }}</p>
+                <p class="my-3 text-danger">{{ errorMessage }}</p>
               </b-form>
             </div>
 
             <p class="font-small grey-text d-flex justify-content-center">
               Vous n'êtes pas encore inscrit ?
               <router-link to="/signup" class="font-weight-bold ml-1">
-                Créer un compte !</router-link
+                Créer un compte</router-link
               >
             </p>
           </b-card>
-        </div>
-      </div>
-    </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import Signup from './Signup'
+import Signup from '../components/Signup'
 import { apiClient } from '../services/ApiClient'
 import router from '../router/index'
 
@@ -76,18 +76,19 @@ export default {
           .post('api/auth/login', this.input)
           .then(data => {
             if (!data.token) {
-              this.errorMessage = 'Mot de passe incorrect !'
+              this.errorMessage = 'Mot de passe incorrect'
             } else {
-              localStorage.setItem('Usertoken', data.token)
-              router.push('/posts')
+              localStorage.setItem('userToken', data.token)
+              localStorage.setItem('userData', JSON.stringify(data.user))
+              router.push({ name: 'Posts' })
             }
           })
           .catch(error => {
             console.log({ error: error })
-            this.errorMessage = 'Problème de connexion !'
+            this.errorMessage = 'Problème de connexion'
           })
       } else {
-        this.errorMessage = 'Veuillez renseigner un email et un mot de passe !'
+        this.errorMessage = 'Veuillez renseigner un email et un mot de passe'
       }
     }
   }
