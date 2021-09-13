@@ -16,8 +16,13 @@
       >
         <b-card class="border-0">
           <p class="card-text">
-            <b-button block @click="$router.push({ name: 'Profile' })"
+            <b-button block @click="changeOrReloadPage('Profile')"
               >Voir mon profil</b-button
+            >
+          </p>
+          <p class="card-text">
+            <b-button block @click="changeOrReloadPage('Posts')"
+              >Voir la page d'accueil</b-button
             >
           </p>
           <p class="card-text">
@@ -53,6 +58,10 @@ export default {
     logout () {
       localStorage.clear()
       this.$router.push({ name: 'Login' })
+    },
+    changeOrReloadPage (name) {
+      if (name === this.$route.name) return window.location.reload()
+      this.$router.push({ name })
     }
   }
 }
@@ -79,5 +88,6 @@ export default {
 #profile-collapsed {
   top: 74px;
   right: 44px;
+  z-index: 1;
 }
 </style>

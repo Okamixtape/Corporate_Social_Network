@@ -1,5 +1,7 @@
 <template>
   <div>
+    <ProfileButton />
+
     <b-row class="text-center justify-content-center">
       <b-col cols="12">
         <b-card
@@ -7,8 +9,8 @@
         >
           <b-form @submit="editUser">
             <ProfileImage
-              :src="userData.imageUrl"
-              customClass="profile-picture"
+              :src="url || userData.imageUrl"
+              customClass="profile-main-picture"
             />
             <b-form-group>
               <div class="d-flex align-items-center">
@@ -19,6 +21,7 @@
                 </b-col>
                 <b-col sm="10">
                   <b-form-file
+                    ref="fileupload"
                     id="imageUrl"
                     class="text-dark mb-2 pl-3"
                     placeholder="Aucun fichier selectionné"
@@ -75,20 +78,25 @@
         </b-card>
       </b-col>
     </b-row>
+
+    <PostsList :userId="userData.id" />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import { apiClient } from '../services/ApiClient'
+import ProfileButton from '../components/ProfileButton'
 import ProfileImage from '../components/ProfileImage'
+import PostsList from '../components/PostsList'
 
 export default {
   name: 'Profile',
   components: {
-    ProfileImage
+    ProfileButton,
+    ProfileImage,
+    PostsList
   },
-  props: {},
   data () {
     const userData = JSON.parse(localStorage.getItem('userData'))
     return {
@@ -98,18 +106,20 @@ export default {
         lastName: userData.lastName,
         email: userData.email
       },
-      selectedFile: null
+      selectedFile: null,
+      url: null
     }
   },
   methods: {
-    onFileSelected (event) {
+    onFileSelected () {
+      this.url = URL.createObjectURL(event.target.files[0])
       this.selectedFile = event.target.files[0]
     },
-    editUser () {
+    editUser (event) {
       let body = this.input
 
       const isFormData = !!this.selectedFile
-
+      
       if (isFormData) {
         const formData = new FormData()
         formData.append('image', this.selectedFile)
@@ -123,22 +133,25 @@ export default {
           title: 'Notification',
           autoHideDelay: 4000
         })
+        window.location.reload()
       })
+      this.$refs.fileupload.reset()
     }
   }
 }
 </script>
 
 <style lang="scss">
-.profile-picture {
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.profile-main-picture {
   width: 100px;
   height: 100px;
   border-radius: 100%;
   margin-bottom: 2rem;
-}
-
-.custom-file-input:lang(fr) ~ .custom-file-label::after {
-  content: 'Choisir un fichier';
 }
 
 .custom-file-label {

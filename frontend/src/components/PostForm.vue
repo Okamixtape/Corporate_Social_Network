@@ -1,21 +1,42 @@
 <template>
   <div>
     <b-form-group>
-      <b-form-textarea
-        :value="value"
-        @input="updateValue"
-        id="content"
-        type="text"
-        placeholder="Description"
-        class="text-dark mb-2
-        mt-4 pl-3 w-100"
-      ></b-form-textarea>
+      <div class="d-flex align-items-center">
+        <ProfileImage :src="userData.imageUrl" customClass="profile-picture" />
+        <b-form-textarea
+          :value="value"
+          @input="updateValue"
+          id="content"
+          type="text"
+          :placeholder="`Que voulez-vous partager, ${userData.firstName} ?`"
+          class="text-dark mb-2 pl-3 w-100"
+        ></b-form-textarea>
+      </div>
+      <div
+        id="preview"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <img class="mt-3" v-if="url" :src="url" />
+      </div>
     </b-form-group>
+    <div class="line mb-3"></div>
     <b-form-group>
-      <b-form-file
-        placeholder="Aucun fichier selectionné"
-        @change="onFileSelected"
-      ></b-form-file>
+      <div class="d-flex justify-content-around">
+        <b-button class="btn-block" @click="triggerInput"
+          ><b-icon icon="file-image" variant="danger" class="mr-2"></b-icon
+          ><span class="button-text">Choisir un fichier</span></b-button
+        >
+        <input
+          ref="fileInput"
+          class="d-none"
+          type="file"
+          @change="onFileSelected"
+        />
+        <b-button class="btn-block" type="submit"
+          ><b-icon icon="file-check" variant="danger" class="mr-2"></b-icon>
+          <span class="button-text">Publier</span></b-button
+        >
+      </div>
     </b-form-group>
   </div>
 </template>
@@ -23,85 +44,60 @@
 <script>
 import { apiClient } from '../services/ApiClient'
 import { mapState, mapActions } from 'vuex'
+import ProfileImage from './ProfileImage'
 
 export default {
-  name: 'EditPost',
-  props: {
-    value: {
-      type: String
+  name: 'PostForm',
+  components: {
+    ProfileImage
+  },
+  props: ['value', 'imgUrl', 'onFormSubmit'],
+  data () {
+    return {
+      userData: JSON.parse(localStorage.getItem('userData')),
+      url: this.imgUrl
+    }
+  },
+  watch: {
+    onFormSubmit () {
+      this.url = null
     }
   },
   methods: {
     onFileSelected (event) {
+      this.url = URL.createObjectURL(event.target.files[0])
       this.$emit('onFileSelected', event.target.files[0])
     },
     updateValue (value) {
       this.$emit('input', value)
+    },
+    triggerInput () {
+      this.$refs.fileInput.click()
     }
   }
 }
 </script>
 
 <style lang="scss">
-#post-button {
-  top: 10px;
-  right: 10px;
-  padding: 1px 18px 10px;
-  &:hover {
-    background-color: rgba(108, 117, 125, 0.2);
-  }
+#preview img {
+  max-width: 100%;
+  max-height: 500px;
 }
-.btn-secondary {
-  font-weight: bold;
-  color: #000;
-  background-color: white;
-  border: none;
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin-bottom: 1rem;
 }
 
-.btn-outline-secondary,
-.btn-secondary {
-  &:hover,
-  &:active,
-  &:focus {
-    color: #000 !important;
-    background-color: rgba(108, 117, 125, 0.2) !important;
-    box-shadow: none !important;
-  }
+.line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(192, 192, 192, 0.5);
 }
 
-#button-collapsed {
-  top: 44px;
-  right: 11px;
-}
-.collapsed {
-  visibility: hidden;
-  display: block !important;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.1s, opacity 0.5s ease-in-out;
-  opacity: 0;
-
-  .card-body {
-    padding: 1rem;
-    box-shadow: 0px 1px 5px 4px rgba(204, 204, 204, 0.2);
-  }
-}
-
-.visible {
-  visibility: visible;
-  opacity: 1;
-  transform: scaleY(1);
-}
-
-.modal-content {
-  border: none;
-  box-shadow: 0px 1px 5px 4px rgba(204, 204, 204, 0.2);
-}
-.modal-backdrop {
-  background-color: rgba(108, 117, 125, 0.2);
-}
-
-.custom-file-input:lang(fr) ~ .custom-file-label::after {
-  content: 'Choisir un fichier';
+.button-text {
+  color: #747474;
 }
 </style>

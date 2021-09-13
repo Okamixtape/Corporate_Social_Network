@@ -1,37 +1,17 @@
 <template>
   <div id="posts">
-    <h1 class="mb-4">Bienvenue sur {{ companyName }} !</h1>
-    <p>Bonjour {{ userData.firstName }} ! Voici les nouveautés du jour :</p>
+    <ProfileButton />
 
     <b-row class="text-center justify-content-center">
-      <b-col cols="12" v-for="post in posts" :key="post.message">
+      <b-col cols="12">
         <b-card
-          class="w-50 mx-auto my-3 border-0 shadow p-3 mb-5 mt-3 bg-white rounded"
+          class="w-50 mx-auto mt-3 mb-5 border-0 shadow px-3 pt-4 bg-white rounded"
         >
-          <b-button
-            v-if="post.userId == userData.id"
-            v-on:click="deletePost(post.id)"
-            id="remove-button"
-            class="close d-block remove-button position-absolute"
-            data-dismiss="alert"
-            aria-label="Supprimer"
-          >
-            <span>×</span>
-          </b-button>
-
-          <span class="post justify-content-center">
-            <img class="post__image" :src="post.imageUrl" />
-          </span>
-
-          <b-card-body>
-            <b-card-text>{{ post.content }}</b-card-text>
-          </b-card-body>
+          <CreatePost @displayNotification="displayNotification" />
         </b-card>
       </b-col>
-      <p class="mx-2 text-success">{{ messageAlert }}</p>
     </b-row>
-
-    <p class="mx-2">{{ errorMessage }}</p>
+    <PostsList />
   </div>
 </template>
 
@@ -39,46 +19,34 @@
 import { apiClient } from '../services/ApiClient'
 import Signup from '../components/Signup'
 import router from '../router/index'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import EditPost from '../components/EditPost'
+import CreatePost from '../components/CreatePost'
+import PostsList from '../components/PostsList'
+import ProfileButton from '../components/ProfileButton'
 
 export default {
   name: 'Posts',
+  components: {
+    CreatePost,
+    PostsList,
+    ProfileButton
+  },
   data () {
     return {
-      errorMessage: '',
-      messageAlert: '',
-      posts: [],
       userData: JSON.parse(localStorage.getItem('userData'))
     }
   },
-  beforeMount () {
-    this.fetchPosts()
-  },
   methods: {
-    fetchPosts () {
-      apiClient
-        .get('api/posts')
-        .then(response => (this.posts = response.posts))
-        .catch(error => {
-          console.log({ error: error })
-          this.errorMessage = 'Problème de connexion'
-        })
-    },
-    deletePost (postId) {
-      apiClient
-        .delete('api/posts/' + postId)
-        .then(response => (this.messageAlert = response.message))
-        .then(() => this.fetchPosts())
-        .catch(error => {
-          console.log({ error: error })
-          this.errorMessage = 'Problème de connexion'
-        })
+    displayNotification (text) {
+      this.$bvToast.toast(text, {
+        title: 'Notification',
+        autoHideDelay: 4000
+      })
     }
   },
   computed: {
-    ...mapState({
-      companyName: 'companyName'
-    })
+    ...mapState(['companyName'])
   }
 }
 </script>
@@ -88,19 +56,8 @@ h1 {
   font-size: 1.7rem;
 }
 
-.post {
-  display: block;
-  overflow: hidden;
-  width: 100%;
-  height: 300px;
-  &__image {
-    max-width: 200px;
-  }
-}
-
-#remove-button {
-  top: 0;
-  right: 0;
-  margin: 7px 7px;
+.row {
+  margin-left: 0;
+  margin-right: 0;
 }
 </style>
