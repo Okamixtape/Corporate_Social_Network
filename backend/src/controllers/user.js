@@ -1,7 +1,8 @@
 // ---------------- IMPORTATIONS GÉNÉRALES ---------------------- // 
 
-// Importation de l'ORM Sequelize
+// Importation de l'ORM Sequelize et des schémas de données nécessaires
 const db = require('../models/index')
+const Sequelize = db.Sequelize
 
 // Importation du package jsonwebtoken pour la création et la vérification des tokens
 const jwt = require('jsonwebtoken')

@@ -47,7 +47,12 @@
         </button>
         <button
           v-if="isCreating"
-          class="d-flex justify-content-center create-button btn-block"
+          :class="
+            `d-flex align-items-center justify-content-center create-button btn-block ${
+              !emptyField ? 'disabled' : ''
+            }`
+          "
+          :disabled="emptyField"
           type="submit"
         >
           <span class="mr-2 d-none d-md-block">Publier</span>
@@ -105,6 +110,11 @@ export default {
     triggerInput () {
       this.$refs.fileInput.click()
     }
+  },
+  computed: {
+    emptyField () {
+      return !this.value.trim().length && !this.url
+    }
   }
 }
 </script>
@@ -113,6 +123,10 @@ export default {
 #preview img {
   max-width: 100%;
   max-height: 500px;
+}
+
+.disabled {
+  cursor: not-allowed;
 }
 
 .form-control {

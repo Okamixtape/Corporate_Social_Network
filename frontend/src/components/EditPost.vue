@@ -65,6 +65,7 @@ export default {
     },
 
     async onUpload () {
+      if (!this.content.trim().length) return
       await this.modifyPost({
         postId: this.post.id,
         selectedFile: this.selectedFile,
