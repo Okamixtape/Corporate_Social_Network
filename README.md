@@ -15,7 +15,7 @@ Ce repository est organisé en deux parties distinctes (un dossier frontend et b
 
 ## Installation ##
 
-Vous pouvez cloner ce repository ou directement le télécharger sous format ZIP :
+Je vous invite à directement télécharger le repository sous format ZIP et à l'ouvrir avec un IDE comme Visual Studio Code :
 
 Pour la partie frontend, vous pouvez trouver les instructions d'installation et de lancement en suivant ce chemin d'accès : ./frontend/README.md
 
