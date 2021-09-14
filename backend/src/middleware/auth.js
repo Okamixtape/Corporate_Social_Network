@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
         // Fonction split pour récupérer tout après l'espace dans le header
         const token = req.headers.authorization.split(' ')[1];
         // Fonction verify de jwt pour décoder notre token. Si celui-ci n'est pas valide, une erreur sera générée
-        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+        const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
         // Extraction ID utilisateur du token
         const userId = decodedToken.userId;
         // Si la demande contient un ID utilisateur, nous le comparons à celui extrait du token. 

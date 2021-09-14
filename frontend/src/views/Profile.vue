@@ -102,7 +102,7 @@
             </button>
           </b-form>
 
-          <DeleteAccount />
+          <UserDeleteAccount />
         </b-card>
       </b-col>
     </b-row>
@@ -117,7 +117,7 @@ import { apiClient } from '../services/ApiClient'
 import ProfileButton from '../components/ProfileButton'
 import ProfileImage from '../components/ProfileImage'
 import PostsList from '../components/PostsList'
-import DeleteAccount from '../components/DeleteAccount'
+import UserDeleteAccount from '../components/UserDeleteAccount'
 
 export default {
   name: 'Profile',
@@ -125,7 +125,7 @@ export default {
     ProfileButton,
     ProfileImage,
     PostsList,
-    DeleteAccount
+    UserDeleteAccount
   },
   data () {
     const userData = JSON.parse(localStorage.getItem('userData'))

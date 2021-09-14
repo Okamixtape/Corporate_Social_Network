@@ -4,9 +4,9 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Likes extends Model {
     /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
+     * Méthode d'aide pour définir des associations.
+     *Cette méthode ne fait pas partie du cycle de vie de Sequelize.
+     *Le fichier `models/index` appellera cette méthode automatiquement.
      */
     static associate (models) {
       Likes.belongsTo(models.User, { foreignKey: 'userId' })

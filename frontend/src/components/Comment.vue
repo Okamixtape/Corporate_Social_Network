@@ -33,7 +33,8 @@
       <EditButton
         customClass="comment-button"
         classCollapse="collapse-button"
-        :shouldDisplay="comment.User.id == userData.id"
+        :isCreator="comment.User.id == userData.id"
+        :isAdmin="userData.admin"
         @clickedEditButton="startEditing"
         @onDelete="onDelete"
         modifyText="Modifier"
@@ -106,6 +107,9 @@ export default {
 </script>
 
 <style lang="scss">
+.div-comment-picture {
+  margin-right: 0.5rem;
+}
 .comment-button {
   position: static !important;
   margin-left: 10px;

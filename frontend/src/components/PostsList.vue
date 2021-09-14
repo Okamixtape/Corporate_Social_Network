@@ -64,7 +64,7 @@ export default {
   display: block;
   overflow: hidden;
   width: 100%;
-  height: 350px;
+  height: fit-content;
   &__image {
     max-width: 100%;
     max-height: 100%;
@@ -76,7 +76,7 @@ export default {
 
 @media screen and (min-width: 280px) and (max-width: 769px) {
   .post {
-    height: 230px;
+    height: fit-content;
   }
 }
 

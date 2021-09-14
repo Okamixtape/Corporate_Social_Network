@@ -70,6 +70,7 @@ export default {
 <style lang="scss">
 .comment-area {
   background-color: rgba(108, 117, 125, 0.1);
+  margin-bottom: 0.1rem;
 }
 .div-comment-picture {
   width: 45px;
@@ -86,6 +87,9 @@ export default {
 }
 
 @media screen and (min-width: 280px) and (max-width: 769px) {
+  .comment-area {
+  margin-bottom: 1rem;
+  }
   .div-comment-picture {
     width: 38px;
     height: 38px;

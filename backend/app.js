@@ -24,8 +24,8 @@ const rateLimit = require("express-rate-limit");
 
 // Limitation du nombre de connexions d'un seul utilisateur (en lien avec rateLimit)
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // à 15 minutes
-  max: 100 // et chaque adresse IP est limitée à 100 requêtes
+  windowMs: 60 * 60 * 1000, // à 60 minutes
+  max: 1000 // et chaque adresse IP est limitée à 1000 requêtes
 });
 
 

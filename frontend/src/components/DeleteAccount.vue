@@ -4,8 +4,8 @@
       <button
         class="delete-account d-flex justify-content-center align-items-center"
       >
-        <p @click="confirmDeletion" class="my-3 mr-1 mr-lg-2">
-          Supprimer ce compte
+        <p @click="onDeleteAccount" class="my-3 mr-1 mr-lg-2">
+          Supprimer le compte
         </p>
         <b-icon icon="trash"></b-icon>
       </button>
@@ -25,12 +25,9 @@ export default {
     }
   },
   methods: {
-    async confirmDeletion () {
-      if (confirm('Êtes-vous sûr de vouloir supprimer ce compte ?')) {
-        await apiClient.delete(`api/users/${this.userData.id}`)
-        localStorage.clear()
-        this.$router.push({ name: 'Login' })
-      }
+    async onDeleteAccount () {
+      this.$emit('onDeleteAccount')
+      
     }
   }
 }

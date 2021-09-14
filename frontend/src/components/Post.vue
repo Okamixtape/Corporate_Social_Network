@@ -160,6 +160,7 @@ export default {
   overflow: hidden;
   border-radius: 100%;
   margin-bottom: 1rem;
+  margin-right: 1rem;
   background: black;
 }
 
