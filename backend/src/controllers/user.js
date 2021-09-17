@@ -15,7 +15,7 @@ const { User } = db.sequelize.models
 const newToken = user => {
     token = jwt.sign(
         { userId: user.id }, 
-        'RANDOM_TOKEN_SECRET',
+        process.env.TOKEN_KEY,
         {expiresIn: '24h'}
         )
     return { user, token }
