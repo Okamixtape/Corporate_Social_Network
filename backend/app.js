@@ -62,7 +62,7 @@ const app = express();
 app.use(express.json());
 
 // Middleware global pour utiliser body-parser
-app.use(bodyParser.json())
+app.use(express.json())
 
 // Message s'affichant dans la console quand une requête est reçue
 app.use((req, res, next) => {
